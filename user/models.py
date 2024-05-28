@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from core.models import TimeStampedModel
@@ -17,3 +18,16 @@ class User(AbstractUser, TimeStampedModel):
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
+    is_seller = models.BooleanField(default=False)
+
+
+class SellerProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='seller_profile')
+    business_name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    tax_id = models.CharField(max_length=20)
+    verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.business_name

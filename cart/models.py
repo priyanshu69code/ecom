@@ -10,7 +10,7 @@ class Cart(TimeStampedModel):
                              on_delete=models.CASCADE, null=True, blank=True)
     session = models.ForeignKey(
         Session, on_delete=models.CASCADE, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    item = models.ManyToManyField('product.Product', through='CartItem')
 
     @property
     def total_price(self):
