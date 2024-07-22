@@ -18,6 +18,21 @@ class Order(TimeStampedModel):
     def __str__(self):
         return f'Order {self.id}'
 
+    @property
+    def calculate_total(self):
+        total = 0
+        for item in self.items.all():
+            total += item.total_price
+        return total
+
+    def cancel(self):
+        self.status = 'cancelled'
+        for item in self.items.all():
+            item.product.add_stock(item.quantity)
+        self.items.all().delete()
+
+        self.save()
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items',

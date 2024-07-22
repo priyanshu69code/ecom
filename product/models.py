@@ -11,13 +11,23 @@ class Product(TimeStampedModel):
     stock = models.PositiveIntegerField()
     is_active = models.BooleanField(default=True)
     category = models.ForeignKey(
-        'category.Category', on_delete=models.SET_NULL, null=True)
+        'category.Category', on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(
         upload_to='product_images/', blank=True, null=True)
-    attributes = JSONField(default=dict)
+    attributes = JSONField(default=dict, blank=True, null=True)
+    seller = models.ForeignKey(
+        'user.SellerProfile', on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.name
+
+    def add_stock(self, quantity):
+        self.stock += quantity
+        self.save()
+
+    def remove_stock(self, quantity):
+        self.stock -= quantity
+        self.save()
 
 
 class ProductImage(TimeStampedModel):

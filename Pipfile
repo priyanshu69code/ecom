@@ -7,6 +7,12 @@ name = "pypi"
 django = "*"
 psycopg2-binary = "*"
 pillow = "*"
+django-countries = "*"
+django-unfold = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

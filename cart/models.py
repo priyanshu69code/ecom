@@ -3,6 +3,7 @@ from core.models import TimeStampedModel
 from django.conf import settings
 from django.contrib.sessions.models import Session
 from product.models import Product
+from django.core.validators import MaxValueValidator
 
 
 class Cart(TimeStampedModel):
@@ -39,7 +40,8 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name='items',
                              on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(
+        default=1, validators=[MaxValueValidator(4)])
 
     @property
     def total_price(self):

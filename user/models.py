@@ -19,6 +19,7 @@ class User(AbstractUser, TimeStampedModel):
         max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     is_seller = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
 
 class SellerProfile(models.Model):
@@ -31,3 +32,12 @@ class SellerProfile(models.Model):
 
     def __str__(self):
         return self.business_name
+
+
+class OTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.otp} for {self.user.email}'
